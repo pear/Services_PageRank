@@ -65,25 +65,25 @@ class Services_PageRank
      *
      * @var string
      */
-	protected $q;
+    protected $q;
     /**
      * CheckHash generated
      *
      * @var string
      */
-	protected $ch;
+    protected $ch;
     /**
      * Data fetched
      *
      * @var string
      */
-	protected $data;
+    protected $data;
     /**
      * PageRank parsed
      *
      * @var string
      */
-	protected $pagerank;
+    protected $pagerank;
     /**
      * A HTTP request instance
      *
@@ -93,29 +93,31 @@ class Services_PageRank
     /**
      * Constructor
      *
-     * @param string        $query    Set the query string (eg: example.com)
-     * @param HTTP_Request2 $request  Provide your HTTP request instance
+     * @param string        $query   Set the query string (eg: example.com)
+     * @param HTTP_Request2 $request Provide your HTTP request instance
      */
-    public function __construct($q = false, HTTP_Request2 $request = null)
+    public function __construct($query = false, HTTP_Request2 $request = null)
     {
         $this->setRequest($request);
-        if ($q) {
-            return $this->query($q, $request);
+        if ($query) {
+            return $this->query($query, $request);
         }
     }
     /**
      * The query function
      *
-     * @param string        $query    Set the query string (eg: example.com)
+     * @param string $query Set the query string (eg: example.com)
+     *
+     * @return string The parsed PageRank value
      */
-    public function query($q)
+    public function query($query)
     {
-		$this->setQuery($q);
-		$this->checkHash();
-		$this->lookup();
+        $this->setQuery($query);
+        $this->checkHash();
+        $this->lookup();
         $this->parse();
-		$this->log();
-		return $this->getPagerank();
+        $this->log();
+        return $this->getPagerank();
     }
     /**
      * Sets the query string (eg: example.com)
@@ -126,7 +128,8 @@ class Services_PageRank
      *
      * @throws Services_PageRank_Exception
      */
-    public function setQuery($string) {
+    public function setQuery($string)
+    {
         if (empty($string)) {
             throw new Services_PageRank_Exception(
                 'setQuery() does not expect parameter 1 to be empty',
@@ -159,7 +162,8 @@ class Services_PageRank
      *
      * @return bool
      */
-    public function hasCheckhash() {
+    public function hasCheckhash()
+    {
         return !empty($this->ch);
     }
     /**
@@ -169,7 +173,8 @@ class Services_PageRank
      *
      * @return Services_PageRank
      */
-    public function setCheckhash($string='') {
+    public function setCheckhash($string = '')
+    {
         if (empty($string)) {
             throw new Services_PageRank_Exception(
                 'setCheckhash() does not expect parameter 1 to be empty',
@@ -193,7 +198,9 @@ class Services_PageRank
      */
     public function getCheckhash()
     {
-		if (!$this->hasCheckhash()) { $this->checkHash(); }
+        if (!$this->hasCheckhash()) {
+            $this->checkHash();
+        }
         return $this->ch ? $this->ch : '';
     }
     /**
@@ -201,26 +208,28 @@ class Services_PageRank
      *
      * @return string The CheckHash
      */
-	protected function checkHash () {
-		$seed = "Mining PageRank is AGAINST GOOGLE'S TERMS OF SERVICE. Yes, I'm talking to you, scammer.";
-		$result = 0x01020345;
-		$len = strlen($this->q);
-		for ($i = 0; $i < $len; $i++) {
-			$result ^= ord($seed{$i%strlen($seed)}) ^ ord($this->q{$i});
-			$result = (($result >> 23) & 0x1ff) | $result << 9;
-		}
+    protected function checkHash ()
+    {
+        $seed = "Mining PageRank is AGAINST GOOGLE'S TERMS OF SERVICE. Yes, I'm talking to you, scammer.";
+        $result = 0x01020345;
+        $len = strlen($this->q);
+        for ($i = 0; $i < $len; $i++) {
+            $result ^= ord($seed{$i%strlen($seed)}) ^ ord($this->q{$i});
+            $result = (($result >> 23) & 0x1ff) | $result << 9;
+        }
         $ch = sprintf('8%x', $result);
-		$this->setCheckhash($ch);
-		return $ch;
-	}
+        $this->setCheckhash($ch);
+        return $ch;
+    }
     /**
      * Builds the URL
      *
      * @return the URL
      */
-	protected function getUrl () {
-		return sprintf($this->url, $this->getCheckhash(), $this->getQuery());
-	}
+    protected function getUrl ()
+    {
+        return sprintf($this->url, $this->getCheckhash(), $this->getQuery());
+    }
     /**
      * Get the Query
      *
@@ -237,7 +246,8 @@ class Services_PageRank
      *
      * @return Services_PageRank
      */
-    public function setData($string = '') {
+    public function setData($string = '')
+    {
         $this->data = $string;
         return $this;
     }
@@ -257,7 +267,8 @@ class Services_PageRank
      *
      * @return Services_PageRank
      */
-    public function setPagerank($string = '') {
+    public function setPagerank($string = '')
+    {
         $this->pagerank = $string;
         return $this;
     }
@@ -275,10 +286,11 @@ class Services_PageRank
      *
      * @return the raw fetch data
      */
-	public function lookup() {
-		$data = $this->fetch($this->getUrl());
+    public function lookup()    
+    {
+        $data = $this->fetch($this->getUrl());
         return $this->setData($data);
-	}
+    }
     /**
      * Fetches the data
      *
@@ -322,7 +334,8 @@ class Services_PageRank
      *
      * @throws Services_PageRank_Exception
      */
-	protected function parse() {
+    protected function parse()
+    {
         $pr = $this->getData();
         if (!$pr) {
             throw new Services_PageRank_Exception(
@@ -341,20 +354,23 @@ class Services_PageRank
             $this->setPagerank($pr);
             return $pr;
         }
-	}
+    }
     /**
      * Empty method for logging
+     *
+     * @return null
      */
-	public function log() {
+    public function log()
+    {
         /*
-		$data=array();
-		$data['ip'] = $_SERVER['REMOTE_ADDR'];
-		$data['useragent'] = $_SERVER['HTTP_USER_AGENT'];
-		$data['query'] = $this->q;
-		$data['hash'] = $this->ch;
-		$data['host'] = parse_url($this->url, PHP_URL_HOST);
-		$data['result'] = $this->data;
-		$data['pagerank'] = $this->pagerank;
+        $data=array();
+        $data['ip'] = $_SERVER['REMOTE_ADDR'];
+        $data['useragent'] = $_SERVER['HTTP_USER_AGENT'];
+        $data['query'] = $this->q;
+        $data['hash'] = $this->ch;
+        $data['host'] = parse_url($this->url, PHP_URL_HOST);
+        $data['result'] = $this->data;
+        $data['pagerank'] = $this->pagerank;
         */
-	}
+    }
 }//eof
