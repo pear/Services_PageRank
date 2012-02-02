@@ -61,7 +61,7 @@ class Services_PageRank
      */
     protected $url = 'http://toolbarqueries.google.com/tbr?client=navclient-auto&ch=%s&features=Rank&q=info:%s';
     /**
-     * Query input (eg: example.com)
+     * Query string input for the lookup URL (eg: example.com)
      *
      * @var string
      */
@@ -104,7 +104,7 @@ class Services_PageRank
         }
     }
     /**
-     * The query function
+     * Query Google for PageRank
      *
      * @param string $query Set the query string (eg: example.com)
      *
@@ -120,7 +120,7 @@ class Services_PageRank
         return $this->getPagerank();
     }
     /**
-     * Sets the query string (eg: example.com)
+     * Sets the query string for the lookup (eg: example.com)
      *
      * @param string $string The query
      *
@@ -224,7 +224,7 @@ class Services_PageRank
         return $ch;
     }
     /**
-     * Builds the URL
+     * Builds the PageRank Toolbar Lookup URL with the checkhash and the query
      *
      * @return the URL
      */
@@ -233,7 +233,7 @@ class Services_PageRank
         return sprintf($this->url, $this->getCheckhash(), $this->getQuery());
     }
     /**
-     * Get the Query
+     * Return the Query (eg: example.com)
      *
      * @return the Query
      */
