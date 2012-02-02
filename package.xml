@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.7.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Services_PageRank</name>
+ <channel>pear.php.net</channel>
+ <summary>PageRank Lookup (Based on Google Toolbar for Mozilla Firefox)</summary>
+ <description>Generates the CheckHash (ch) and lookups up the URL to parse the PageRank from Google.</description>
+ <lead>
+  <name>James Wade</name>
+  <user>hm2k</user>
+  <email>hm2k@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2012-01-31</date>
+ <version>
+  <release>0.1.0</release>
+  <api>0.1.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license">BSD License</license>
+ <notes>First release as PEAR package</notes>
+ <contents>
+  <dir name="/">
+   <file name="Services/PageRank.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file name="Services/PageRank/Exception.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="Services_PageRank" name="examples/pagerank.cli.php" role="doc" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+   <package>
+    <name>HTTP_Request2</name>
+    <channel>pear.php.net</channel>
+    <min>2.0.0</min>
+   </package>
+  </required>
+ </dependencies>
+ <phprelease />
+</package>

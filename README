@@ -1,0 +1,18 @@
+Services PageRank
+=================
+
+Generates the CheckHash (ch) and lookups up the URL to parse the PageRank from Google.
+
+* @category  Services
+* @package   PageRank
+* @author    James Wade <hm2k@php.net>
+* @copyright 2012 Phurix
+* @license   http://www.opensource.org/licenses/bsd-license.php The BSD License
+* @version   Release: @package_version@
+* @link      http://pagerank.phurix.net/
+
+Credits
+-------
+
+* Written by [James Wade as HM2K](http://www.hm2k.com/)
+* Sponsored by [Phurix Web Hosting](http://www.phurix.co.uk/)
