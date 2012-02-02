@@ -351,6 +351,7 @@ class Services_PageRank
             $pr = substr(strrchr($pr, ':'), 1);
         }
         if ($pr) {
+            $pr = trim($pr);
             $this->setPagerank($pr);
             return $pr;
         }
