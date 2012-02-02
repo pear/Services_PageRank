@@ -1,6 +1,8 @@
 Services PageRank
 =================
 
+PageRank Lookup (Based on Google Toolbar for Mozilla Firefox)
+
 Generates the CheckHash (ch) and lookups up the URL to parse the PageRank from Google.
 
 * @category  Services
@@ -16,3 +18,23 @@ Credits
 
 * Written by [James Wade as HM2K](http://www.hm2k.com/)
 * Sponsored by [Phurix Web Hosting](http://www.phurix.co.uk/)
+
+Dependencies
+------------
+PHP >= 5
+HTTP_Request2
+
+Install
+-------
+
+From git:
+	git clone git://github.com/hm2k/Services_PageRank.git
+	pear uninstall Services_PageRank
+	pear install --alldeps Services_PageRank/package.xml
+
+Usage
+-----
+<?php
+	require('Services/PageRank.php');
+	echo new PageRank('example.com'); # returns 7
+?>
