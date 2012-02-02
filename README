@@ -36,5 +36,5 @@ Usage
 -----
 <?php
 	require('Services/PageRank.php');
-	echo new PageRank('example.com'); # returns 7
+	echo new Services_PageRank('example.com'); # returns 7
 ?>

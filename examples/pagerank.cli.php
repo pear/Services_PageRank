@@ -16,7 +16,7 @@
 require('Services/PageRank.php');
 
 if (isset($argv[1]) && $argv[1]) {
-    echo new PageRank($argv[1]);
+    echo new Services_PageRank($argv[1]);
 } else {
     echo 'Usage: ' . $argv[0] . '<url>';
 }
