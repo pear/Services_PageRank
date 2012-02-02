@@ -172,6 +172,8 @@ class Services_PageRank
      * @param string $string The CheckHash
      *
      * @return Services_PageRank
+     *
+     * @throws Services_PageRank_Exception
      */
     public function setCheckhash($string = '')
     {
