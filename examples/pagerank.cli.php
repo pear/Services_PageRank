@@ -18,7 +18,11 @@ require('Services/PageRank.php');
 if (isset($argv[1]) && $argv[1]) {
     try {
         $pr = new Services_PageRank($argv[1]);
-        $result = $pr->getPagerank() . '/10';
+        if ($pr->getPagerank()) {
+            $result = $pr->getPagerank() . '/10';
+        } else {
+            $result = 'N/A';
+        }
     } catch (Services_PageRank_Exception $e) {
         $result = $e->getMessage();
     }
