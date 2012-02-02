@@ -40,17 +40,17 @@
  */
 
 if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'Services_Mailman_AllTests::main');
+    define('PHPUnit_MAIN_METHOD', 'Services_PageRank_AllTests::main');
 }
 
 require_once 'PHPUnit/Extensions/PhptTestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
 /**
- * Mailman phpt test suite.
+ * PageRank phpt test suite.
  *
  * Run all tests from the package root directory:
- * $ phpunit Services_Mailman_AllTests tests/AllTests.php
+ * $ phpunit Services_PageRank_AllTests tests/AllTests.php
  * or
  * $ php tests/AllTests.php
  *
@@ -62,7 +62,7 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
  * @version   Release: @package_version@
  * @link      http://pagerank.phurix.net/
  */
-class Services_Mailman_AllTests
+class Services_PageRank_AllTests
 {
     /**
      * Runs the test suite
@@ -87,6 +87,6 @@ class Services_Mailman_AllTests
     }
 }
 
-if (PHPUnit_MAIN_METHOD == 'Services_Mailman_AllTests::main') {
-    Services_Mailman_AllTests::main();
+if (PHPUnit_MAIN_METHOD == 'Services_PageRank_AllTests::main') {
+    Services_PageRank_AllTests::main();
 }
