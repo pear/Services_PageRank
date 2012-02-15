@@ -37,7 +37,13 @@
  * @version   GIT: $Id:$
  * @link      http://pagerank.phurix.net/
  */
+/**
+ * A class for the HTTP_Request2 object
+ */
 require_once 'HTTP/Request2.php';
+/**
+ * Exception class for Services_PageRank package
+ */
 require_once 'Services/PageRank/Exception.php';
 /**
  * Services_PageRank Class
@@ -399,6 +405,15 @@ class Services_PageRank implements SplSubject
                 unset($this->observers[$key]);
                 return;
             }
+        }
+    }
+   /**
+    * Notifies all observers
+    */
+    public function notify()
+    {
+        foreach ($this->observers as $observer) {
+            $observer->update($this);
         }
     }
    /**
