@@ -32,12 +32,48 @@ From git:
 	pear uninstall Services_PageRank
 	pear install --alldeps Services_PageRank/package.xml
 
-Usage
------
+Examples
+--------
+
+In this usage example you can lookup echo the pagerank of the domain or URL you query:
 <?php
 	require('Services/PageRank.php');
 	echo new Services_PageRank('example.com'); # returns 7
 ?>
+
+Advanced examples
+-----------------
+
+<?php
+	require('Services/PageRank.php');
+	$pr = new Services_PageRank();
+	$pr->setQuery('example.com');
+	echo $pr->getQuery(); # returns example.com
+?>
+<?php
+	require('Services/PageRank.php');
+	$pr = new Services_PageRank();
+	$pr->setQuery('example.com');
+	echo $pr->getCheckhash(); # returns 85ee6a887
+?>
+<?php
+	require('Services/PageRank.php');
+	$pr = new Services_PageRank();
+	$pr->setQuery('example.com');
+	echo $pr->getUrl(); # returns http://toolbarqueries.google.com/tbr?client=navclient-auto&ch=85ee6a887&features=Rank&q=info:example.com
+?>
+<?php
+	require('Services/PageRank.php');
+	$pr = new Services_PageRank();
+	$pr->setQuery('example.com');
+	echo $pr->getData(); # returns Rank_1:1:7
+?>
+<?php
+	require('Services/PageRank.php');
+	$pr = new Services_PageRank();
+	$pr->setQuery('example.com');
+	echo $pr->getData(); # returns 7
+?>	
 
 "Terms of Service"
 ------------------
