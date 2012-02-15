@@ -247,7 +247,7 @@ class Services_PageRank implements SplSubject
      *
      * @return the URL
      */
-    protected function getUrl ()
+    public function getUrl ()
     {
         return sprintf($this->url, $this->getCheckhash(), $this->getQuery());
     }
