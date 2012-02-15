@@ -27,8 +27,14 @@ HTTP_Request2
 Install
 -------
 
-From git:
-	git clone git://github.com/hm2k/Services_PageRank.git
+Using wget as a user:
+	wget https://github.com/hm2k/Services_PageRank/tarball/master -O hm2k-Services_PageRank.tar.gz
+	tar zxf hm2k-Services_PageRank.tar.gz hm2k-Services_PageRank-*/Services
+	mv hm2k-Services_PageRank-*/Services Services
+	rm -fr hm2k-Services_PageRank*
+
+Using git as root:
+	git fetch git://github.com/hm2k/Services_PageRank.git
 	pear uninstall Services_PageRank
 	pear install --alldeps Services_PageRank/package.xml
 
