@@ -4,14 +4,15 @@ Test for Services_PageRank CheckHash
 <?php
 
 //settings
-$query = 'google.com';
+$query = 'example.com';
 
 //set class
 require_once '../Services/PageRank.php';
 $pr = new Services_PageRank();
-echo $pr->getCheckhash($query);
+$pr->setQuery($query);
+echo $pr->getCheckhash();
 
 ?>
 
 --EXPECT--
-81020345
+85ee6a887
