@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PageRank Lookup (Based on Google Toolbar for Mozilla Firefox)
  *
@@ -38,10 +37,8 @@
  * @version   GIT: $Id:$
  * @link      http://pagerank.phurix.net/
  */
-
 require_once 'HTTP/Request2.php';
 require_once 'Services/PageRank/Exception.php';
-
 /**
  * Services_PageRank Class
  *
@@ -53,7 +50,7 @@ require_once 'Services/PageRank/Exception.php';
  * @version   Release: @package_version@
  * @link      http://pagerank.phurix.net/
  */
-class Services_PageRank
+class Services_PageRank implements SplSubject
 {
     /**
      * Default PageRank Toolbar Lookup URL
@@ -90,6 +87,20 @@ class Services_PageRank
      * @var HTTP_Request2 $request
      */
     public $request = null;
+   /**
+    * Observers attached to the request (instances of SplObserver)
+    * @var  array
+    */
+    protected $observers = array();
+   /**
+    * Last event in request / response handling, intended for observers
+    * @var  array
+    * @see  getLastEvent()
+    */
+    protected $lastEvent = array(
+        'name' => 'start',
+        'data' => null
+    );
     /**
      * Constructor
      *
@@ -116,7 +127,6 @@ class Services_PageRank
         $this->checkHash();
         $this->lookup();
         $this->parse();
-        $this->log();
         return $this->getPagerank();
     }
     /**
@@ -144,6 +154,8 @@ class Services_PageRank
             );
         }
         $this->q=$string;
+        $this->setLastEvent('setQuery', $string);
+        return $this;
     }
     /**
      * Sets the request object
@@ -191,6 +203,7 @@ class Services_PageRank
             );
         }
         $this->ch = $string;
+        $this->setLastEvent('setCheckhash', $string);
         return $this;
     }
     /**
@@ -251,6 +264,7 @@ class Services_PageRank
     public function setData($string = '')
     {
         $this->data = $string;
+        $this->setLastEvent('setData', $string);
         return $this;
     }
     /**
@@ -272,6 +286,7 @@ class Services_PageRank
     public function setPagerank($string = '')
     {
         $this->pagerank = $string;
+        $this->setLastEvent('setPagerank', $string);
         return $this;
     }
     /**
@@ -358,22 +373,66 @@ class Services_PageRank
             return $pr;
         }
     }
-    /**
-     * Empty method for logging
-     *
-     * @return null
-     */
-    public function log()
+   /**
+    * Attaches a new observer
+    *
+    * @param    SplObserver
+    */
+    public function attach(SplObserver $observer)
     {
-        /*
-        $data=array();
-        $data['ip'] = $_SERVER['REMOTE_ADDR'];
-        $data['useragent'] = $_SERVER['HTTP_USER_AGENT'];
-        $data['query'] = $this->q;
-        $data['hash'] = $this->ch;
-        $data['host'] = parse_url($this->url, PHP_URL_HOST);
-        $data['result'] = $this->data;
-        $data['pagerank'] = $this->pagerank;
-        */
+        foreach ($this->observers as $attached) {
+            if ($attached === $observer) {
+                return;
+            }
+        }
+        $this->observers[] = $observer;
+    }
+   /**
+    * Detaches an existing observer
+    *
+    * @param    SplObserver
+    */
+    public function detach(SplObserver $observer)
+    {
+        foreach ($this->observers as $key => $attached) {
+            if ($attached === $observer) {
+                unset($this->observers[$key]);
+                return;
+            }
+        }
+    }
+   /**
+    * Sets the last event
+    *
+    * Set the current state of the request and notify the observers.
+    *
+    * @param    string  event name
+    * @param    mixed   event data
+    */
+    public function setLastEvent($name, $data = null)
+    {
+        $this->lastEvent = array(
+            'name' => $name,
+            'data' => $data
+        );
+        $this->notify();
+    }
+   /**
+    * Returns the last event
+    *
+    * Observers should use this method to access the last change in request.
+    * The following event names are possible:
+    * <ul>
+    *   <li>'setQuery'                - when the query string is set (string)</li>
+    *   <li>'setCheckhash'            - when the checkhash is set (string)</li>
+    *   <li>'setData'                 - when the raw data returned is set (string)</li>
+    *   <li>'setPagerank'             - when the actual pagerank is set (string)</li>
+    * </ul>
+    *
+    * @return   array   The array has two keys: 'name' and 'data'
+    */
+    public function getLastEvent()
+    {
+        return $this->lastEvent;
     }
 }//eof
