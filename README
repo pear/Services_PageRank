@@ -38,3 +38,19 @@ Usage
 	require('Services/PageRank.php');
 	echo new Services_PageRank('example.com'); # returns 7
 ?>
+
+"Terms of Service"
+------------------
+
+The seed or "cipher" used in the algorithm in this package to generate
+ the checkhash needed for each query is as follows:
+
+	"Mining PageRank is AGAINST GOOGLE'S TERMS OF SERVICE. Yes, I'm talking to you, scammer."
+
+The above sentance is used to generate the checkhash and is only included
+ for that reason.
+
+To my knowledge Google's "Terms Of Service" does not cover or mention
+ "Mining" or "PageRank".
+
+However, in the infamous words of Google: "Don't be evil".
