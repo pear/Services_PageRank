@@ -187,7 +187,7 @@ class Services_PageRank implements SplSubject
     /**
      * Sets the CheckHash
      *
-     * @param string $string The CheckHash
+     * @param string $string The getHash result
      *
      * @return Services_PageRank
      *
@@ -208,7 +208,7 @@ class Services_PageRank implements SplSubject
                 Services_PageRank_Exception::USER_INPUT
             );
         }
-        $this->ch = $string;
+        $this->ch = sprintf('8%x', $string);
         $this->setLastEvent('setCheckhash', $string);
         return $this;
     }
@@ -220,16 +220,17 @@ class Services_PageRank implements SplSubject
     public function getCheckhash()
     {
         if (!$this->hasCheckhash()) {
-            $this->checkHash();
+            $result = $this->getHash();
+            $this->setCheckhash($result);
         }
         return $this->ch ? $this->ch : '';
     }
     /**
-     * Generates the CheckHash
+     * Generates the raw hash result for the "check hash"
      *
-     * @return string The CheckHash
+     * @return string The raw hash result
      */
-    protected function checkHash ()
+    protected function getHash ()
     {
         $seed = "Mining PageRank is AGAINST GOOGLE'S TERMS OF SERVICE. Yes, I'm talking to you, scammer.";
         $result = 0x01020345;
@@ -238,9 +239,7 @@ class Services_PageRank implements SplSubject
             $result ^= ord($seed{$i%strlen($seed)}) ^ ord($this->q{$i});
             $result = (($result >> 23) & 0x1ff) | $result << 9;
         }
-        $ch = sprintf('8%x', $result);
-        $this->setCheckhash($ch);
-        return $ch;
+        return $result;
     }
     /**
      * Builds the PageRank Toolbar Lookup URL with the checkhash and the query
