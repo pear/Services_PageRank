@@ -9,7 +9,8 @@ $query = 'example.com';
 //set class
 require_once '../Services/PageRank.php';
 $pr = new Services_PageRank();
-echo $pr->getHash($query);
+$pr->setQuery($query);
+echo $pr->getHash();
 
 ?>
 

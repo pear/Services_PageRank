@@ -130,7 +130,7 @@ class Services_PageRank implements SplSubject
     public function query($query)
     {
         $this->setQuery($query);
-        $this->checkHash();
+        $this->getCheckhash();
         $this->lookup();
         $this->parse();
         return $this->getPagerank();
@@ -187,29 +187,29 @@ class Services_PageRank implements SplSubject
     /**
      * Sets the CheckHash
      *
-     * @param string $string The getHash result
+     * @param integer $integer The getHash result
      *
      * @return Services_PageRank
      *
      * @throws Services_PageRank_Exception
      */
-    public function setCheckhash($string = '')
+    public function setCheckhash($integer = '')
     {
-        if (empty($string)) {
+        if (empty($integer)) {
             throw new Services_PageRank_Exception(
                 'setCheckhash() does not expect parameter 1 to be empty',
                 Services_PageRank_Exception::USER_INPUT
             );
         }
-        if (!is_string($string)) {
+        if (!is_integer($integer)) {
             throw new Services_PageRank_Exception(
-                'setCheckhash() expects parameter 1 to be string, ' .
-                gettype($string) . ' given',
+                'setCheckhash() expects parameter 1 to be an integer, ' .
+                gettype($integer) . ' given',
                 Services_PageRank_Exception::USER_INPUT
             );
         }
-        $this->ch = sprintf('8%x', $string);
-        $this->setLastEvent('setCheckhash', $string);
+        $this->ch = sprintf('8%x', $integer);
+        $this->setLastEvent('setCheckhash', $integer);
         return $this;
     }
     /**
@@ -228,9 +228,9 @@ class Services_PageRank implements SplSubject
     /**
      * Generates the raw hash result for the "check hash"
      *
-     * @return string The raw hash result
+     * @return integer The raw hash result
      */
-    protected function getHash ()
+    public function getHash ()
     {
         $seed = "Mining PageRank is AGAINST GOOGLE'S TERMS OF SERVICE. Yes, I'm talking to you, scammer.";
         $result = 0x01020345;
