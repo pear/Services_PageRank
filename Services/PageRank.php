@@ -239,6 +239,11 @@ class Services_PageRank implements SplSubject
             $result ^= ord($seed{$i%strlen($seed)}) ^ ord($this->q{$i});
             $result = (($result >> 23) & 0x1ff) | $result << 9;
         }
+        // Check we're not already on a 32-bitsize
+        if (PHP_INT_MAX != 2147483647) {
+            // Mask and re-complement to 32-bit
+            $result = -(~($result & 0xFFFFFFFF) + 1);
+        }
         return $result;
     }
     /**
